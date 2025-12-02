@@ -1,0 +1,21 @@
+
+{
+  "projects": {
+    "project1": {
+      "assignment_group": "DevOps Team A",
+      "urgency": "1",
+      "impact": "2",
+      "severity": "1",
+      "caller_id": "user_a",
+      "assignee": "john.doe"
+    },
+    "project2": {
+      "assignment_group": "DevOps Team B",
+      "urgency": "2",
+      "impact": "1",
+      "severity": "2",
+      "caller_id": "user_b",
+      "assignee": "jane.smith"
+    }
+  }
+}

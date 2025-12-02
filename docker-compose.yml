@@ -1,0 +1,51 @@
+
+version: '3.8'
+services:
+  gateway:
+    build: ./gateway
+    environment:
+      - SERVICENOW_INSTANCE=${SERVICENOW_INSTANCE}
+      - CLIENT_ID=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+    expose:
+      - "3000"
+    depends_on:
+      - dummy-servicenow
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - app-net
+
+  dummy-servicenow:
+    build: ./dummy-servicenow
+    ports:
+      - "4000:4000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/api/now/table/incident"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - app-net
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - gateway
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - app-net
+
+  networks:
+    app-net:
+      driver: bridge
