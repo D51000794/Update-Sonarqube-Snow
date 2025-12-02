@@ -17,7 +17,7 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - app-net
+      - app-net2
 
   dummy-servicenow:
     build: ./dummy-servicenow
@@ -29,7 +29,7 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - app-net
+      - app-net2
 
   nginx:
     build: ./nginx
@@ -44,8 +44,8 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - app-net
+      - app-net2
 
   networks:
-    app-net:
+    app-net2:
       driver: bridge
