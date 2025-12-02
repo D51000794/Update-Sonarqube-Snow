@@ -54,6 +54,6 @@ services:
     networks:
       - app-net2
 
-  networks:
-    app-net2:
-      driver: bridge
+networks:
+  app-net2:
+    driver: bridge
