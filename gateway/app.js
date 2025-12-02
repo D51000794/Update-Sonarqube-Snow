@@ -31,6 +31,11 @@ app.get('/healthz', (req, res) => {
   res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
 });
 
+// ✅ Optional root route
+app.get('/', (req, res) => {
+  res.send('SonarQube → ServiceNow Gateway is running. Use /healthz or POST /sonarqube-webhook.');
+});
+
 app.post('/sonarqube-webhook', async (req, res) => {
   if (!verifySignature(req)) {
     return res.status(401).json({ error: 'Invalid signature' });

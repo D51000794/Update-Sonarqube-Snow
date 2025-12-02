@@ -3,20 +3,21 @@ version: '3.8'
 services:
   gateway:
     build: ./gateway
-    ports:
-      - "3000:3000"
     environment:
       - SERVICENOW_INSTANCE=${SERVICENOW_INSTANCE}
-      - SONARQUBE_WEBHOOK_SECRET=${SONARQUBE_WEBHOOK_SECRET}
       - CLIENT_ID=${CLIENT_ID}
       - CLIENT_SECRET=${CLIENT_SECRET}
+      - SONARQUBE_WEBHOOK_SECRET=${SONARQUBE_WEBHOOK_SECRET}
+      - EMAIL_HOST=${EMAIL_HOST}
       - EMAIL_PORT=${EMAIL_PORT}
       - EMAIL_USER=${EMAIL_USER}
       - EMAIL_PASS=${EMAIL_PASS}
       - NOTIFY_EMAIL=${NOTIFY_EMAIL}
-      - SERVICENOW_INCIDENT_UI_PATH=${SERVICENOW_INCIDENT_UI_PATH}
       - EMAIL_CUSTOM_MESSAGE=${EMAIL_CUSTOM_MESSAGE}
       - TZ=${TZ}
+      - RETRY_MAX_ATTEMPTS=${RETRY_MAX_ATTEMPTS}
+      - RETRY_BASE_MS=${RETRY_BASE_MS}
+      - RETRY_MAX_MS=${RETRY_MAX_MS}
     expose:
       - "3000"
     depends_on:
@@ -26,8 +27,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    networks:
-      - app-net2
 
   dummy-servicenow:
     build: ./dummy-servicenow
@@ -38,13 +37,11 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    networks:
-      - app-net2
 
   nginx:
     build: ./nginx
     ports:
-      - "80:80"
+      - "8085:80"
       - "443:443"
     depends_on:
       - gateway
@@ -53,9 +50,3 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    networks:
-      - app-net2
-
-networks:
-  app-net2:
-    driver: bridge
