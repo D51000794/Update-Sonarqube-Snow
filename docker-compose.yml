@@ -3,6 +3,8 @@ version: '3.8'
 services:
   gateway:
     build: ./gateway
+    ports:
+      - "3000:3000"
     environment:
       - SERVICENOW_INSTANCE=${SERVICENOW_INSTANCE}
       - SONARQUBE_WEBHOOK_SECRET=${SONARQUBE_WEBHOOK_SECRET}
